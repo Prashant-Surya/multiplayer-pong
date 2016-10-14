@@ -7,9 +7,21 @@
     float : left;
 }
 
-.choose_player_btn {
-    
+body {
+    background-image: url("img/back.jpg");
+}
+.choose_gameplay {
+    text-align: center;
+    padding-top: 15%;
+}
 
+.choose_player_btn {
+    padding: 15px;
+    margin: 50px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .hidden {

@@ -1,3 +1,4 @@
+var player_name = prompt('Please enter your name');
 var socket = io('http://localhost:8123');
 function guid() {
   function s4() {
@@ -9,5 +10,18 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 
+var players = {};
 var player_id = guid();
-socket.emit('connect', {'player_name': player_name, 'player_id' : player_id});
+socket.emit('new_user', {'player_name': player_name, 'player_id' : player_id});
+
+function add_user(data) {
+    $('#active_players').append('<li id="' +data['player_id'] + '">' + data['player_name'] +"</li>" );
+}
+
+socket.on('new_user', function(data) {
+    players[data['player_id']] = data['player_name'];
+    console.log(data['player_name'] + ' logged in.');
+    add_user(data);
+
+});
+

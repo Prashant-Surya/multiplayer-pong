@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+<title>Play Pong</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+
 <body>
+<div class="game">
+
+
 <canvas id="game" width="700px" height="600px">
     
 </canvas>
-<script type="text/javascript">
-    var player_name = prompt('Please enter your name');
+</div>
 
-</script>
+<div class="sidebar">
+<ul id="active_players">
+</ul>
+</div>
+<script type="text/javascript" src="jquery.min.js" ></script>
 <script type="text/javascript" src="game.js"></script>
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="network.js"></script>

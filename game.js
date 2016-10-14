@@ -58,7 +58,7 @@ function Player(news, color, player_id){
     this.news = news;
     this.pad_width = 10;
     this.pad_height = 100;
-    this.speed = 5;
+    this.speed = 50;
     this.top_left_corner = {
         'W': {
             'x': -(this.pad_height)/2,
@@ -157,6 +157,22 @@ var BotPlayer = function(news, color, player_id) {
             }
         }
     }
+
+    this.isCrossing = function() {
+        if (this.news == 'N' || this.news == 'S') {
+            if (new_game.ball.y < this.pad_height / 2 || new_game.ball.y > gameWindow.get_width() - this.pad_height / 2) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (new_game.ball.x < this.pad_height / 2 || new_game.ball.x > gameWindow.get_height() - this.pad_height / 2) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 }
 
 var HumanPlayer = function(news, color, player_id) {
@@ -181,7 +197,7 @@ function Ball() {
         context = gameWindow.get_context();
         context.fillStyle = this.color;
         context.beginPath();
-        context.arc( this.x, this.y,this.radius, 0, Math.PI * 2, true);
+        context.arc( this.y, this.x, this.radius, 0, Math.PI * 2, true);
         context.fill();
     }
 
@@ -196,8 +212,8 @@ function game(){
     this.ball = null;
     this.players = null;
     this.initialize = function(){
-        player1 = new HumanPlayer('N', 'blue',1);
-        player2 = new BotPlayer('E', 'green',2);
+        player1 = new HumanPlayer('E', 'blue',1);
+        player2 = new BotPlayer('N', 'green',2);
         player3 = new BotPlayer('W', 'red',3);
         player4 = new BotPlayer('S', 'yellow',4);
         this.players= [player1,player2,player3,player4];
@@ -228,15 +244,53 @@ function game(){
             context = gameWindow.get_context();
             context.clearRect(0,0, gameWindow.get_width(), gameWindow.get_height());
             self.ball.move();
+            var isUp_Down = self.checkCollision();
+            if (isUp_Down != null) {
+                if (isUp_Down == false)
+                    self.ball.velocity_y = - self.ball.velocity_y;
+                else
+                    self.ball.velocity_x = - self.ball.velocity_x;
+                self.ball.move();
+            }
             self.ball.draw();
             for(var i=0; i<4; i++){
-            if (self.players[i] instanceof BotPlayer) {
-                self.players[i].move(1);
+                if (self.players[i] instanceof BotPlayer) {
+                    self.players[i].move(1);
+                }
+                self.players[i].draw();
             }
-            self.players[i].draw();
-        }
         }, 1000/60);
         
+    }
+
+    this.checkCollision = function() {
+        var isUp_Down = null;
+        for (var i = 0; i < 4; i++) {
+            var player = this.players[i];
+            var distance = player.pad_height / 2 + this.ball.radius;
+            var distance_2 = player.pad_width / 2 + this.ball.radius;
+            if (player.news == 'N') {
+                if ((this.ball.y > player.y - distance && this.ball.y < player.y + distance) && (this.ball.x - player.x < distance_2)) 
+                    isUp_Down = true;
+            }
+            if (player.news == 'E') {
+                if ((this.ball.x > player.x - distance && this.ball.x < player.x + distance) && (player.y - this.ball.y < distance_2)) {
+                    isUp_Down = false;
+                }
+            }
+            if (player.news == 'S') {
+                if ((this.ball.y > player.y - distance && this.ball.y < player.y + distance) && (player.x - this.ball.x < distance_2)) 
+                    isUp_Down = true;
+            }
+            if (player.news == 'W') {
+                if ((this.ball.x > player.x - distance && this.ball.x < player.x + distance) && (this.ball.y - player.y < distance_2)) {
+                    isUp_Down = false;
+                }
+            }
+
+            
+        }
+        return isUp_Down;
     }
 }
 new_game = new game();

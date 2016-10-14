@@ -259,9 +259,10 @@ function game(players){
                 }
                 self.players[i].draw();
             }
-            if (isGameOver()) {
+            if (self.isGameOver()) {
                 clearInterval(interval);
-                
+                $('.game').hide();
+                show_choose_gameplay(); 
 
             }
         }, 1000/60);

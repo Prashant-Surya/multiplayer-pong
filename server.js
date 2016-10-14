@@ -27,10 +27,11 @@ io.on('connection', function (socket) {
   socket.on('new_user', function(data) {
     
     for (key in players) {
-      socket.emit('new_user', {'player_name' : players[key]['player_name'], 'player_id' : key });
+      socket.emit('new_user', {'player_name' : players[key]['player_name'], 'player_id' : key, 'status' : players[key]['status']});
     }
-    players[data['player_id']] = {'player_name' : data['player_name'], 'socket' : socket};
+    players[data['player_id']] = {'player_name' : data['player_name'], 'status' : 'free', 'socket' : socket};
     cur_id = data['player_id'];
+    data['status'] = 'free';
     socket.broadcast.emit('new_user', data);
     console.log(players);
   });

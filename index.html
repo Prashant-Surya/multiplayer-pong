@@ -21,6 +21,7 @@
 </div>
 
 <div class="sidebar hidden">
+<h2> Online players </h2>
 <ul id="active_players">
 </ul>
 </div>
@@ -32,6 +33,10 @@
 function hide_choose_gameplay() {
     $('.choose_gameplay').hide();
     $('body').css('background','none');
+}
+
+function show_choose_gameplay() {
+    $('.choose_gameplay').show();   
 }
 
 function singlePlayer() {
@@ -46,13 +51,14 @@ function singlePlayer() {
         new_game.initialize();
         setTimeout(function() {
             new_game.start();
-        }, 3000);
+        }, 1000);
         
 }
 
 
 function multiPlayer() {
     hide_choose_gameplay();
+    $('.sidebar').show();
 }
 
 </script>

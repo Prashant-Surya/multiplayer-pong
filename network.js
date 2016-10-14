@@ -16,6 +16,13 @@ socket.emit('new_user', {'player_name': player_name, 'player_id' : player_id});
 
 function add_user(data) {
     $('#active_players').append('<li id="' +data['player_id'] + '">' + data['player_name'] +"</li>" );
+    if (data['status'] == 'free') {
+        $('#' + data['player_id']).removeClass('busy');
+        $('#' + data['player_id']).addClass('available');
+    } else {
+        $('#' + data['player_id']).removeClass('available');
+        $('#' + data['player_id']).addClass('busy');
+    }
     $('body').on('click','#' + data['player_id'], function(){
         socket.emit('wanna_play', {'player_id' : $(this).attr('id')});
     });

@@ -16,6 +16,9 @@ socket.emit('new_user', {'player_name': player_name, 'player_id' : player_id});
 
 function add_user(data) {
     $('#active_players').append('<li id="' +data['player_id'] + '">' + data['player_name'] +"</li>" );
+    $('body').on('click','#' + data['player_id'], function(){
+        socket.emit('wanna_play', {'player_id' : $(this).attr('id')});
+    });
 }
 
 socket.on('new_user', function(data) {
@@ -25,3 +28,6 @@ socket.on('new_user', function(data) {
 
 });
 
+socket.on('wanna_play', function(data) {
+    console.log(players[data['player_id']] + ' wants to play with ' + player_name);
+});

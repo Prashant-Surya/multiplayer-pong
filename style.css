@@ -1,7 +1,17 @@
 .sidebar {
     float : left;
+    
 }
 
 .game {
     float : left;
+}
+
+.choose_player_btn {
+    
+
+}
+
+.hidden {
+    display: none;
 }

@@ -207,19 +207,16 @@ function Ball() {
     }
 }
 
-function game(){
+function game(players){
     this.currentPlayer = null;
     this.ball = null;
-    this.players = null;
+    this.players = players;
     this.initialize = function(){
-        player1 = new HumanPlayer('E', 'blue',1);
-        player2 = new BotPlayer('N', 'green',2);
-        player3 = new BotPlayer('W', 'red',3);
-        player4 = new BotPlayer('S', 'yellow',4);
-        this.players= [player1,player2,player3,player4];
         this.ball = new Ball();
+        this.ball.draw();
         for(var i=0; i<4; i++){
-                set_initial_position(this.players[i]);
+            set_initial_position(this.players[i]);
+            this.players[i].draw();
         }
 
         currentPlayer = player1;
@@ -238,9 +235,12 @@ function game(){
                 }
             }
         });
+    }
+
+    this.start = function() {
         var self = this;
         
-        setInterval(function() {
+        var interval = setInterval(function() {
             context = gameWindow.get_context();
             context.clearRect(0,0, gameWindow.get_width(), gameWindow.get_height());
             self.ball.move();
@@ -258,6 +258,11 @@ function game(){
                     self.players[i].move(1);
                 }
                 self.players[i].draw();
+            }
+            if (isGameOver()) {
+                clearInterval(interval);
+                
+
             }
         }, 1000/60);
         
@@ -292,6 +297,11 @@ function game(){
         }
         return isUp_Down;
     }
+
+    this.isGameOver = function() {
+        if (this.ball.x < 0 || this.ball.x > gameWindow.get_height() || this.ball.y < 0 || this.ball.y > gameWindow.get_width())
+            return true;
+        else
+            return false;
+    };
 }
-new_game = new game();
-new_game.initialize();

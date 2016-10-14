@@ -7,20 +7,57 @@
 
 
 <body>
-<div class="game">
 
+<div class="choose_gameplay">
 
+<button id="single_player" class="choose_player_btn" onclick="singlePlayer()">Single Player</button>
+<button id="multi_player" class="choose_player_btn" onclick="multiPlayer()">Mutli Player</button>
+
+</div>
+
+<div class="game hidden">
 <canvas id="game" width="700px" height="600px">
-    
 </canvas>
 </div>
 
-<div class="sidebar">
+<div class="sidebar hidden">
 <ul id="active_players">
 </ul>
 </div>
 <script type="text/javascript" src="jquery.min.js" ></script>
 <script type="text/javascript" src="game.js"></script>
+
+<script type="text/javascript">
+
+function hide_choose_gameplay() {
+    $('.choose_gameplay').hide();
+ 
+}
+
+function singlePlayer() {
+        hide_choose_gameplay();
+       $('.game').show();
+        player1 = new HumanPlayer('E', 'blue',1);
+        player2 = new BotPlayer('N', 'green',2);
+        player3 = new BotPlayer('W', 'red',3);
+        player4 = new BotPlayer('S', 'yellow',4);
+        players= [player1,player2,player3,player4];
+        new_game = new game(players);
+        new_game.initialize();
+        setTimeout(function() {
+            new_game.start();
+        }, 3000);
+        
+}
+
+
+function multiPlayer() {
+    hide_choose_gameplay();
+}
+
+</script>
+
+
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="network.js"></script>
 </body>

@@ -1,5 +1,5 @@
 var player_name = prompt('Please enter your name');
-var socket = io('http://localhost:8123');
+var socket = io('http://192.168.2.97:8123');
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -37,4 +37,62 @@ socket.on('new_user', function(data) {
 
 socket.on('wanna_play', function(data) {
     console.log(players[data['player_id']] + ' wants to play with ' + player_name);
+    var ans = confirm(players[data['player_id']] + ' wants to play with you.\nDo you want to play?');
+    if (ans) {
+      socket.emit('yes', data);
+    } else {
+      socket.emit('decline', data);
+    }
+});
+
+
+socket.on('decline', function(data) {
+  console.log(players[data['player_id']] + ' declined your request.' );
+});
+
+var other_player;
+var cur_player;
+socket.on("start_game", function(data) {
+  console.log('yes');
+  var players_data = data['players'];
+  $('.sidebar').hide();
+  $('.game').show();
+  players_list = [];
+  colors_list = ['red', 'blue'];
+  player1 = new HumanPlayer(players_data['1']['news'], 'red', players_data['1']['player_id']);
+  player2 = new HumanPlayer(players_data['2']['news'], 'blue', players_data['2']['player_id']);
+  player3 = new BotPlayer('N', 'green',3);
+  player4 = new BotPlayer('S', 'yellow',4);
+  players_list.push(player1);
+  players_list.push(player2);
+  players_list.push(player3);
+  players_list.push(player4);
+  if (player1.player_id == player_id) {
+    new_game = new game(players_list, player1, false);
+    other_player = player2;
+    cur_player = player1;
+  }
+  else {
+    new_game = new game(players_list, player2, false);
+    other_player = player1;
+    cur_player = player2;
+  }
+  new_game.initialize();
+
+  $('#color').text(cur_player.color);
+  setTimeout(function() {
+            new_game.start();
+        }, 1000);
+
+});
+
+socket.on('delete' , function(data) {
+  console.log('disconnect ' + data);
+  $('#' + data['player_id']).remove();
+  delete players[data['player_id']];
+});
+
+socket.on('move', function(data) {
+  other_player.x = data['x'];
+  other_player.y = data['y'];
 });

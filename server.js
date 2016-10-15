@@ -38,8 +38,11 @@ io.on('connection', function (socket) {
 
 
   socket.on('disconnect', function() {
-    console.log(players[cur_id]['player_name'] + ' logged out');
     delete players[cur_id];
+    //for (key in players) {
+    //  players[key]['socket'].emit('delete', {'player_id' : cur_id});
+   // }
+    socket.broadcast.emit('delete', {'player_id' : cur_id});
     console.log(players);
   });
 
@@ -47,5 +50,28 @@ io.on('connection', function (socket) {
     var other_player_id = data['player_id'];
     players[other_player_id]['socket'].emit('wanna_play', {'player_id' : cur_id});
   });
+
+  socket.on('decline', function(data) {
+    players[data['player_id']]['socket'].emit('decline', {'player_id' : cur_id});
+  });
+
+  socket.on("yes", function(data) {
+    new_data = {'1':
+      {'player_id': cur_id,
+        'news': 'W' 
+      },
+      '2':
+      {'player_id': data['player_id'],
+        'news': 'E' 
+      }
+    }
+    players[data['player_id']]['socket'].emit('start_game', {'players': new_data});
+    socket.emit('start_game', {'players': new_data});
+  });
+
+socket.on('move', function(data) {
+  players[data['player_id']]['socket'].emit('move', data);
+
+});
 
 });

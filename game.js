@@ -1,6 +1,8 @@
 function GameWindow(){
     this.canvas = document.getElementById("game");
     this.context = this.canvas.getContext("2d");
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight - 50;
     this.get_context = function(){
         return this.context;
     }
@@ -56,7 +58,7 @@ function Player(news, color, player_id){
     this.color = color;
     this.player_id = player_id;
     this.news = news;
-    this.pad_width = 10;
+    this.pad_width = 20;
     this.pad_height = 100;
     this.speed = 50;
     this.top_left_corner = {
@@ -190,8 +192,8 @@ function Ball() {
     this.color  = 'black';
     this.velocity_x = 5;
     this.velocity_y = 5;
-    this.x = gameWindow.get_width() / 2;
-    this.y = gameWindow.get_height() / 2;
+    this.x = gameWindow.get_height() / 2;
+    this.y = gameWindow.get_width() / 2;
 
     this.draw = function() {
         context = gameWindow.get_context();
@@ -207,10 +209,11 @@ function Ball() {
     }
 }
 
-function game(players){
-    this.currentPlayer = null;
+function game(players, currentPlayer, isSinglePlayer){
+    this.currentPlayer = currentPlayer;
     this.ball = null;
     this.players = players;
+    this.isSinglePlayer = isSinglePlayer;
     this.initialize = function(){
         this.ball = new Ball();
         this.ball.draw();
@@ -219,20 +222,27 @@ function game(players){
             this.players[i].draw();
         }
 
-        currentPlayer = player1;
         window.addEventListener('keydown', function (event) {
+            var moved = false;
             if (currentPlayer.news == 'N' || currentPlayer.news == 'S') {
                 if (event.keyCode == 37) {
                     currentPlayer.move(-1);
+                    moved = true;
                 } else if (event.keyCode == 39) {
                     currentPlayer.move(1);
+                    moved = true;
                 }
             } else {
                 if (event.keyCode == 40) {
                     currentPlayer.move(1);
+                    moved = true;
                 } else if (event.keyCode == 38) {
                     currentPlayer.move(-1);
+                    moved = true;
                 }
+            }
+            if (moved && !isSinglePlayer) {
+                socket.emit('move', {'x' : currentPlayer.x, 'y' : currentPlayer.y , 'player_id' : other_player.player_id});
             }
         });
     }
@@ -261,8 +271,8 @@ function game(players){
             }
             if (self.isGameOver()) {
                 clearInterval(interval);
-                $('.game').hide();
-                show_choose_gameplay(); 
+                //$('.game').hide();
+                //show_choose_gameplay(); 
 
             }
         }, 1000/60);

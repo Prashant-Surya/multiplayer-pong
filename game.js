@@ -1,8 +1,6 @@
 function GameWindow(){
     this.canvas = document.getElementById("game");
     this.context = this.canvas.getContext("2d");
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight - 50;
     this.get_context = function(){
         return this.context;
     }
@@ -26,28 +24,28 @@ function set_initial_position(player){
     if(news=='N'){
         y = Math.floor(Math.random() * (width-pad_height) + 1) + pad_height/2;
         x = player.get_pad_width()/2;
-        if (player instanceof BotPlayer) {
+//        if (player instanceof BotPlayer) {
             y = width / 2;
-        }
+ //       }
     }else if(news == 'S'){
         y = Math.floor(Math.random() * (width-pad_height) + 1) + pad_height/2;
         x = height - player.get_pad_width()/2;
-        if (player instanceof BotPlayer) {
+   //     if (player instanceof BotPlayer) {
             y = width / 2;
-    }
+    //}
 
     }else if(news == 'E'){
         x = Math.floor(Math.random() * (height-pad_height) + 1) + pad_height/2;
         y = width - player.get_pad_width()/2;
-        if (player instanceof BotPlayer) {
+     //   if (player instanceof BotPlayer) {
             x = height / 2;
-    }
+   // }
     }else if(news = 'W'){
         x = Math.floor(Math.random() * (height-pad_height) + 1) + pad_height/2;
         y = player.get_pad_width()/2;
-        if (player instanceof BotPlayer) {
+    //    if (player instanceof BotPlayer) {
                         x = height / 2;
-    }
+   // }
     }
     player.set_x(x);
     player.set_y(y);
@@ -191,7 +189,7 @@ function Ball() {
     this.radius = 10;
     this.color  = 'black';
     this.velocity_x = 5;
-    this.velocity_y = 5;
+    this.velocity_y = 6;
     this.x = gameWindow.get_height() / 2;
     this.y = gameWindow.get_width() / 2;
 
@@ -271,8 +269,8 @@ function game(players, currentPlayer, isSinglePlayer){
             }
             if (self.isGameOver()) {
                 clearInterval(interval);
-                //$('.game').hide();
-                //show_choose_gameplay(); 
+                $('.game').hide();
+                show_choose_gameplay(); 
 
             }
         }, 1000/60);

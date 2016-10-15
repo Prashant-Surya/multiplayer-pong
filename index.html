@@ -16,7 +16,7 @@
 </div>
 
 <div class="game hidden">
-<canvas id="game">
+<canvas id="game" width = "800px" height = "600px">
 </canvas>
 <div id="player_color">
 Your color is : <span id="color"></span>
@@ -45,8 +45,8 @@ function show_choose_gameplay() {
 function singlePlayer() {
         hide_choose_gameplay();
        $('.game').show();
-        player1 = new HumanPlayer('E', 'blue',1);
-        player2 = new BotPlayer('N', 'green',2);
+        player1 = new HumanPlayer('N', 'blue',1);
+        player2 = new BotPlayer('E', 'green',2);
         player3 = new BotPlayer('W', 'red',3);
         player4 = new BotPlayer('S', 'yellow',4);
         players= [player1,player2,player3,player4];

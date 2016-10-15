@@ -1,5 +1,5 @@
 var player_name = prompt('Please enter your name');
-var socket = io('http://192.168.2.97:8123');
+var socket = io('http://localhost:8123');
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)

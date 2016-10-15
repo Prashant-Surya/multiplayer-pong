@@ -1,15 +1,17 @@
-.sidebar {
-    float : left;
-    
-}
-
-.game {
-    float : left;
-}
-
 body {
     background-image: url("img/back.jpg");
 }
+
+.game {
+    text-align: center;
+    margin-top: 30px;
+    
+}
+
+#game {
+    background-image: url("img/back.jpg");
+}
+
 .choose_gameplay {
     text-align: center;
     padding-top: 15%;

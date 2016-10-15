@@ -67,11 +67,26 @@ io.on('connection', function (socket) {
     }
     players[data['player_id']]['socket'].emit('start_game', {'players': new_data});
     socket.emit('start_game', {'players': new_data});
+    for (key in players) {
+      if (key != cur_id && key != data['player_id']) {
+        players[key]['socket'].emit('busy', {'player_id' : cur_id});
+        players[key]['socket'].emit('busy', {'player_id' : data['player_id']});
+      }
+    }
   });
 
 socket.on('move', function(data) {
   players[data['player_id']]['socket'].emit('move', data);
+  
+});
 
+socket.on('game_over', function(data) {
+for (key in players) {
+      if (key != cur_id && key != data['player_id']) {
+        players[key]['socket'].emit('free', {'player_id' : cur_id});
+        players[key]['socket'].emit('free', {'player_id' : data['player_id']});
+      }
+    }
 });
 
 });

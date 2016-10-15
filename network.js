@@ -1,5 +1,5 @@
 var player_name = prompt('Please enter your name');
-var socket = io('http://localhost:8123');
+var socket = io('http://' + window.location.hostname + ':8123');
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -95,4 +95,15 @@ socket.on('delete' , function(data) {
 socket.on('move', function(data) {
   other_player.x = data['x'];
   other_player.y = data['y'];
+});
+
+socket.on('busy', function(data) {
+  $('#' + data['player_id']).removeClass('available');
+  $('#' + data['player_id']).addClass('busy');
+});
+
+
+socket.on('free', function(data) {
+  $('#' + data['player_id']).removeClass('busy');
+  $('#' + data['player_id']).addClass('available');
 });

@@ -271,7 +271,9 @@ function game(players, currentPlayer, isSinglePlayer){
                 clearInterval(interval);
                 $('.game').hide();
                 show_choose_gameplay(); 
-
+                if (!self.isSinglePlayer) {
+                    socket.emit('game_over', {'player_id' : other_player.player_id});
+                }
             }
         }, 1000/60);
         

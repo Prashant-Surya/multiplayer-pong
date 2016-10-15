@@ -1,5 +1,5 @@
 body {
-    background-image: url("img/back.jpg");
+    background-image: url("img/background.jpg");
 }
 
 .game {
@@ -9,7 +9,7 @@ body {
 }
 
 #game {
-    background-image: url("img/back.jpg");
+    background-image: url("img/black.jpg");
 }
 
 .choose_gameplay {
@@ -33,21 +33,35 @@ body {
 }
 
 #active_players li {
-    border : 1px solid black;
     list-style-type: none;
-    text-align: center;
     padding: 10px 0px 10px 0px;
+}
+
+#active_players .available div{
+    border-radius: 5px;
+    background-color: green;
+    width: 10px;
+    height: 10px;
+    float: left;
+    margin-right: 10px;
+    margin-top: 3px;
+    cursor:pointer;
+}
+#active_players .available span:hover{
+    color: blue;
+    cursor:pointer;
+}
+#active_players .busy div{
+    border-radius: 5px;
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    float: left;
+    margin-right: 10px;
+    margin-top: 3px;
 }
 
 
 .hidden {
     display: none;
-}
-
-.available {
-    background-color: green;
-}
-
-.busy {
-    background-color: red;
 }

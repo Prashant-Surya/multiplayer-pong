@@ -15,7 +15,7 @@ var player_id = guid();
 socket.emit('new_user', {'player_name': player_name, 'player_id' : player_id});
 
 function add_user(data) {
-    $('#active_players').append('<li id="' +data['player_id'] + '">' + data['player_name'] +"</li>" );
+    $('#active_players').append('<li id="' +data['player_id'] + '"><div></div><span>' + data['player_name'] +"<span></li>" );
     if (data['status'] == 'free') {
         $('#' + data['player_id']).removeClass('busy');
         $('#' + data['player_id']).addClass('available');

@@ -37,7 +37,9 @@ io.on('connection', function (socket) {
     console.log(players);
 
     player_count += 1;
-    if (player_count == 3) {
+    console.log("Player count out" + player_count);
+    if (Object.keys(players).length == 3) {
+      console.log("Player count " + player_count);
       var news = ['N', 'E' ,'W', 'S'];
       var game = {};
       var count = 0;
@@ -75,11 +77,13 @@ io.on('connection', function (socket) {
   socket.on("yes", function(data) {
     new_data = {'1':
       {'player_id': cur_id,
-        'news': 'N' 
+        'news': 'N',
+        'player_name': players[cur_id]['player_name'] 
       },
       '2':
       {'player_id': data['player_id'],
-        'news': 'S' 
+        'news': 'S',
+        'player_name': players[data['player_id']]['player_name']
       }
     }
     players[data['player_id']]['socket'].emit('start_game', {'players': new_data});

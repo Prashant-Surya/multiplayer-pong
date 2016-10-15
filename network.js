@@ -53,16 +53,17 @@ socket.on('decline', function(data) {
 var other_player;
 var cur_player;
 socket.on("start_game", function(data) {
+  $('.choose_gameplay').hide();
   console.log('yes');
   var players_data = data['players'];
   $('.sidebar').hide();
   $('.game').show();
   players_list = [];
   colors_list = ['red', 'blue'];
-  player1 = new HumanPlayer(players_data['1']['news'], 'red', players_data['1']['player_id']);
-  player2 = new HumanPlayer(players_data['2']['news'], 'blue', players_data['2']['player_id']);
-  player3 = new BotPlayer('E', 'green',3);
-  player4 = new BotPlayer('W', 'yellow',4);
+  player1 = new HumanPlayer(players_data['1']['news'], 'red', players_data['1']['player_id'], players_data['1']['player_name']);
+  player2 = new HumanPlayer(players_data['2']['news'], 'blue', players_data['2']['player_id'], players_data['2']['player_name']);
+  player3 = new BotPlayer('E', 'green',3, "Bot");
+  player4 = new BotPlayer('W', 'yellow',4, "Bot");
   players_list.push(player1);
   players_list.push(player2);
   players_list.push(player3);
@@ -82,7 +83,7 @@ socket.on("start_game", function(data) {
   $('#color').text(cur_player.color);
   setTimeout(function() {
             new_game.start();
-        }, 1000);
+        }, 4000);
 
 });
 
@@ -90,6 +91,7 @@ socket.on("start_4_game", function(data) {
   console.log('yes');
   $('.sidebar').hide();
   $('.game').show();
+  $('.choose_gameplay').hide();
   players = [];
   colors_list = ['red', 'blue', 'green', 'yellow'];
   for (var i = 0; i < 4; i++) {
@@ -99,14 +101,13 @@ socket.on("start_4_game", function(data) {
     else {
       players.push (new HumanPlayer(data[i]['news'] , colors_list[i] , data[i]['player_id'], data[i]['player_name']));
       if (data[i]['player_id'] == player_id) {
-      cur_player = players[i];
+        cur_player = players[i];
       }
   }
   }
   new_game = new game(players, cur_player, false);
   new_game.initialize();
 
-  $('#color').text(cur_player.color);
   setTimeout(function() {
             new_game.start();
         }, 4000);

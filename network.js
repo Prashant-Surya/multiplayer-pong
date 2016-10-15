@@ -61,8 +61,8 @@ socket.on("start_game", function(data) {
   colors_list = ['red', 'blue'];
   player1 = new HumanPlayer(players_data['1']['news'], 'red', players_data['1']['player_id']);
   player2 = new HumanPlayer(players_data['2']['news'], 'blue', players_data['2']['player_id']);
-  player3 = new BotPlayer('N', 'green',3);
-  player4 = new BotPlayer('S', 'yellow',4);
+  player3 = new BotPlayer('E', 'green',3);
+  player4 = new BotPlayer('W', 'yellow',4);
   players_list.push(player1);
   players_list.push(player2);
   players_list.push(player3);

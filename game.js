@@ -52,10 +52,11 @@ function set_initial_position(player){
 }
 
 
-function Player(news, color, player_id){
+function Player(news, color, player_id, name){
     this.color = color;
     this.player_id = player_id;
     this.news = news;
+    this.name = name;
     this.pad_width = 20;
     this.pad_height = 100;
     this.speed = 50;
@@ -64,25 +65,33 @@ function Player(news, color, player_id){
             'x': -(this.pad_height)/2,
             'y': -(this.pad_width)/2,
             'height': this.pad_height,
-            'width': this.pad_width
+            'width': this.pad_width,
+            'text_x' : 0,
+            'text_y' : this.pad_width / 2 + 5
         },
         'S':{
             'x': -(this.pad_width)/2,
             'y': -(this.pad_height)/2,
             'width': this.pad_height,
-            'height': this.pad_width
+            'height': this.pad_width,
+            'text_x' : - this.pad_width / 2 - 5,
+            'text_y' : 0
         },
         'N':{
             'x': -(this.pad_width)/2,
             'y': -(this.pad_height)/2,
             'width': this.pad_height,
-            'height': this.pad_width
+            'height': this.pad_width,
+            'text_x' :this.pad_width /2 + 25,
+            'text_y' : 0
         },
         'E':{
             'x': -(this.pad_height)/2,
             'y': -(this.pad_width)/2,
             'height': this.pad_height,
-            'width': this.pad_width
+            'width': this.pad_width,
+            'text_x' : 0,
+            'text_y' : - this.pad_width / 2 -40
         }
 
     }
@@ -107,6 +116,10 @@ function Player(news, color, player_id){
         var_y = this.y + this.top_left_corner[this.news]['y'];
         context.fillStyle = this.color;
         context.fillRect(var_y, var_x, this.top_left_corner[this.news]['width'], this.top_left_corner[this.news]['height']);
+        context.font = "27px serif"
+        context.fillStyle = "black";
+        context.fillText(this.name,  this.y + this.top_left_corner[this.news]['text_y'], this.x + this.top_left_corner[this.news]['text_x']);
+
     }
 
     this.isCrossing = function() {
@@ -142,8 +155,8 @@ function Player(news, color, player_id){
 }
 
 
-var BotPlayer = function(news, color, player_id) {
-    Player.call(this,news, color, player_id);
+var BotPlayer = function(news, color, player_id,name) {
+    Player.call(this,news, color, player_id, name);
     this.move = function(direction) {
         if (this.news == 'N' || this.news == 'S') {
             if (!this.isCrossing()) {
@@ -175,8 +188,8 @@ var BotPlayer = function(news, color, player_id) {
     }
 }
 
-var HumanPlayer = function(news, color, player_id) {
-    Player.call(this,news, color, player_id);
+var HumanPlayer = function(news, color, player_id,name) {
+    Player.call(this,news, color, player_id,name);
 };
 
 BotPlayer.prototype = Object.create(Player.prototype);

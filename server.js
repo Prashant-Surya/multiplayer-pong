@@ -58,11 +58,11 @@ io.on('connection', function (socket) {
   socket.on("yes", function(data) {
     new_data = {'1':
       {'player_id': cur_id,
-        'news': 'W' 
+        'news': 'N' 
       },
       '2':
       {'player_id': data['player_id'],
-        'news': 'E' 
+        'news': 'S' 
       }
     }
     players[data['player_id']]['socket'].emit('start_game', {'players': new_data});

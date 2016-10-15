@@ -232,7 +232,7 @@ function game(players, currentPlayer, isSinglePlayer){
             set_initial_position(this.players[i]);
             this.players[i].draw();
         }
-
+        var self = this;
         window.addEventListener('keydown', function (event) {
             var moved = false;
             if (currentPlayer.news == 'N' || currentPlayer.news == 'S') {
@@ -253,7 +253,11 @@ function game(players, currentPlayer, isSinglePlayer){
                 }
             }
             if (moved && !isSinglePlayer) {
-                socket.emit('move', {'x' : currentPlayer.x, 'y' : currentPlayer.y , 'player_id' : other_player.player_id});
+                for (var i = 0; i < 4; i++) {
+                    if (self.players[i] instanceof HumanPlayer && self.players[i] != currentPlayer)
+                        socket.emit('move', {'x' : currentPlayer.x, 'y' : currentPlayer.y , 'player_id' : self.players[i].player_id});    
+                }
+                
             }
         });
     }

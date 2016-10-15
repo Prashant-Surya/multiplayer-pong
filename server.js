@@ -21,6 +21,7 @@ function handler (req, res) {
   });
 }
 var players = {};
+var player_count = 0;
 
 io.on('connection', function (socket) {
   var cur_id;
@@ -34,6 +35,21 @@ io.on('connection', function (socket) {
     data['status'] = 'free';
     socket.broadcast.emit('new_user', data);
     console.log(players);
+
+    player_count += 1;
+    if (player_count == 3) {
+      var news = ['N', 'E' ,'W', 'S'];
+      var game = {};
+      var count = 0;
+      for (key in players) {
+        game[count] = { 'player_id' : key, 'player_name' : players[key]['player_name'], 'news' : news[count] };
+        count += 1;
+      }
+
+      for (key in players) {
+        players[key]['socket'].emit('start_4_game', game);
+      }
+    }
   });
 
 
@@ -44,6 +60,7 @@ io.on('connection', function (socket) {
    // }
     socket.broadcast.emit('delete', {'player_id' : cur_id});
     console.log(players);
+    player_count -= 1;
   });
 
   socket.on('wanna_play', function(data) {

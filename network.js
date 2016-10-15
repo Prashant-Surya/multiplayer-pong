@@ -86,6 +86,34 @@ socket.on("start_game", function(data) {
 
 });
 
+socket.on("start_4_game", function(data) {
+  console.log('yes');
+  $('.sidebar').hide();
+  $('.game').show();
+  players = [];
+  colors_list = ['red', 'blue', 'green', 'yellow'];
+  for (var i = 0; i < 4; i++) {
+    if (data[i] == null) {
+      players.push (new BotPlayer('S' , colors_list[i] , 867, 'Bot'));
+    }
+    else {
+      players.push (new HumanPlayer(data[i]['news'] , colors_list[i] , data[i]['player_id'], data[i]['player_name']));
+      if (data[i]['player_id'] == player_id) {
+      cur_player = players[i];
+      }
+  }
+  }
+  new_game = new game(players, cur_player, false);
+  new_game.initialize();
+
+  $('#color').text(cur_player.color);
+  setTimeout(function() {
+            new_game.start();
+        }, 4000);
+
+});
+
+
 socket.on('delete' , function(data) {
   console.log('disconnect ' + data);
   $('#' + data['player_id']).remove();

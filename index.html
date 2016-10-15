@@ -2,72 +2,79 @@
 <html>
 <head>
 <title>Play Pong</title>
+
+<link rel="stylesheet" href="jquery.popup.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 
 <body>
 
-<div class="choose_gameplay">
+    <div class="choose_gameplay">
+        <div class="title">Take a Break and Play Ping-Pong</div>
+        <button id="single_player" class="choose_player_btn" onclick="singlePlayer()">Single Player</button>
+        <button id="multi_player" class="choose_player_btn" onclick="multiPlayer()">Mutli Player</button>
+    </div>
 
-<button id="single_player" class="choose_player_btn" onclick="singlePlayer()">Single Player</button>
-<button id="multi_player" class="choose_player_btn" onclick="multiPlayer()">Mutli Player</button>
+    <div class="game hidden">
+        <canvas id="game" width = "650px" height = "600px">
+        </canvas>
+        <div id="player_color">
+            Your color is : <span id="color"></span>
+        </div>
+    </div>
 
-</div>
+    <div class="sidebar hidden">
+    <h2> Online players </h2>
+    <ul id="active_players">
+    </ul>
+    </div>
+    <div class="popup js__popup js__slide_top">
+        <a href="#" class="p_close js__p_close" title="Close"> <span></span><span></span> </a>
+        <div class="p_content">Game Over</div>
+    </div>
 
-<div class="game hidden">
-<canvas id="game" width = "1000px" height = "600px">
-</canvas>
-<div id="player_color">
-Your color is : <span id="color"></span>
-</div>
-</div>
+    <a class="js__p_start hidden">ddd</a>
+    <script type="text/javascript" src="jquery.min.js" ></script>
+    <script type="text/javascript" src="jquery.popup.js"></script>
+    <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript">
 
-<div class="sidebar hidden">
-<h2> Online players </h2>
-<ul id="active_players">
-</ul>
-</div>
-<script type="text/javascript" src="jquery.min.js" ></script>
-<script type="text/javascript" src="game.js"></script>
+    function hide_choose_gameplay() {
+        $('.choose_gameplay').hide();
+    }
 
-<script type="text/javascript">
+    function show_choose_gameplay() {
+        $('.choose_gameplay').show();
+    }
 
-function hide_choose_gameplay() {
-    $('.choose_gameplay').hide();
-}
+    function singlePlayer() {
+            hide_choose_gameplay();
+           $('.game').show();
+            player1 = new HumanPlayer('N', 'blue',1);
+            player2 = new BotPlayer('E', 'green',2);
+            player3 = new BotPlayer('W', 'red',3);
+            player4 = new BotPlayer('S', 'yellow',4);
+            players= [player1,player2,player3,player4];
+            new_game = new game(players, player1, true);
+            new_game.initialize();
+            $('#color').text('blue');
+            setTimeout(function() {
+                new_game.start();
+            }, 1000);
 
-function show_choose_gameplay() {
-    $('.choose_gameplay').show();   
-}
+    }
 
-function singlePlayer() {
+
+    function multiPlayer() {
         hide_choose_gameplay();
-       $('.game').show();
-        player1 = new HumanPlayer('N', 'blue',1);
-        player2 = new BotPlayer('E', 'green',2);
-        player3 = new BotPlayer('W', 'red',3);
-        player4 = new BotPlayer('S', 'yellow',4);
-        players= [player1,player2,player3,player4];
-        new_game = new game(players, player1, true);
-        new_game.initialize();
-        $('#color').text('blue');
-        setTimeout(function() {
-            new_game.start();
-        }, 1000);
-        
-}
+        $('.sidebar').show();
+    }
+
+    </script>
 
 
-function multiPlayer() {
-    hide_choose_gameplay();
-    $('.sidebar').show();
-}
-
-</script>
-
-
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="network.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="network.js"></script>
 </body>
 </html>

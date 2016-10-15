@@ -187,7 +187,7 @@ HumanPlayer.prototype.constructor = HumanPlayer;
 
 function Ball() {
     this.radius = 10;
-    this.color  = 'black';
+    this.color  = 'white';
     this.velocity_x = 5;
     this.velocity_y = 6;
     this.x = gameWindow.get_height() / 2;
@@ -270,10 +270,18 @@ function game(players, currentPlayer, isSinglePlayer){
             if (self.isGameOver()) {
                 clearInterval(interval);
                 $('.game').hide();
-                show_choose_gameplay(); 
+                show_choose_gameplay();
+                $(".js__p_start").click(function(){
+                    $(".js__popup").css('margin-left','-230px');
+                    $(".js__popup").removeClass('js__slide_top');
+                    $(this).simplePopup();
+                });
+                $(".js__p_start").click();
                 if (!self.isSinglePlayer) {
                     socket.emit('game_over', {'player_id' : other_player.player_id});
                 }
+
+
             }
         }, 1000/60);
         
@@ -316,3 +324,4 @@ function game(players, currentPlayer, isSinglePlayer){
             return false;
     };
 }
+

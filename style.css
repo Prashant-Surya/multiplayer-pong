@@ -1,5 +1,5 @@
 body {
-    background-image: url("img/background.jpg");
+    background-image: url("img/triangular.png");
 }
 
 .game {
@@ -9,12 +9,12 @@ body {
 }
 
 #game {
-    background-image: url("img/black.jpg");
+    background: url("img/footer_lodyas.png") #000;
+    border: 5px solid rgba(0, 0, 0, 0.32);
 }
 
 .choose_gameplay {
     text-align: center;
-    padding-top: 15%;
 }
 
 .choose_player_btn {
@@ -25,7 +25,10 @@ body {
     font-size: 20px;
     cursor: pointer;
 }
-
+.title {
+    font-size: 32px;
+    padding: 50px 0;
+}
 
 #active_players {
     margin-left: auto;
